@@ -1,0 +1,3 @@
+# Install these from the CircuitPython Library Bundle into CIRCUITPY/lib/.
+adafruit-circuitpython-motor
+adafruit-circuitpython-pca9685
