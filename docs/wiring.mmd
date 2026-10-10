@@ -1,0 +1,76 @@
+flowchart LR
+    subgraph XIAO[Seeed Studio XIAO ESP32-S3]
+        D0[D0 GPIO1<br/>UD potentiometer]
+        D1[D1 GPIO2<br/>Trim potentiometer]
+        D2[D2 GPIO3<br/>LR potentiometer]
+        D3[D3 GPIO4<br/>Enable switch]
+        D4[D4 GPIO5<br/>I2C SDA]
+        D5[D5 GPIO6<br/>I2C SCL]
+        D6[D6 GPIO43<br/>UART TX]
+        D7[D7 GPIO44<br/>UART RX]
+        D8[D8 GPIO7<br/>Mode switch]
+        D9[D9 GPIO8<br/>Blink switch]
+        V33[3V3]
+        GND_X[GND]
+    end
+
+    subgraph Controls[Controller inputs]
+        UD[Up/down potentiometer]
+        TRIM[Eyelid trim potentiometer]
+        LR[Left/right potentiometer]
+        ENABLE[Enable switch]
+        MODE[Mode switch]
+        BLINK[Blink switch]
+    end
+
+    subgraph PCA[PCA9685 servo controller]
+        SDA[SDA]
+        SCL[SCL]
+        VCC[Logic VCC]
+        GND_P[GND]
+        VP[Servo V+]
+        C0[Channel 0]
+        C1[Channel 1]
+        C2[Channel 2]
+        C3[Channel 3]
+        C4[Channel 4]
+        C5[Channel 5]
+    end
+
+    subgraph Vision[Grove Vision UART device]
+        VRX[RX]
+        VTX[TX 3.3 V]
+        VGND[GND]
+    end
+
+    subgraph ServoPower[Separate 5-6 V servo supply]
+        POS[Positive]
+        GND_S[Ground]
+    end
+
+    UD --> D0
+    TRIM --> D1
+    LR --> D2
+    ENABLE -->|active low to ground| D3
+    MODE -->|active low to ground| D8
+    BLINK -->|active low to ground| D9
+
+    D4 <-->|SDA| SDA
+    D5 <-->|SCL| SCL
+    V33 --> VCC
+    GND_X --- GND_P
+
+    D6 -->|TX to RX| VRX
+    VTX -->|TX to RX| D7
+    GND_X --- VGND
+
+    POS --> VP
+    GND_S --- GND_P
+    GND_S --- GND_X
+
+    C0 --> S0[LR servo signal]
+    C1 --> S1[UD servo signal]
+    C2 --> S2[Top-left lid servo signal]
+    C3 --> S3[Bottom-left lid servo signal]
+    C4 --> S4[Top-right lid servo signal]
+    C5 --> S5[Bottom-right lid servo signal]

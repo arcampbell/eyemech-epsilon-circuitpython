@@ -29,6 +29,8 @@ it to the XIAO. A 5 V UART signal requires a level shifter.
 
 ## Wiring
 
+The complete Mermaid source is available at [`docs/wiring.mmd`](docs/wiring.mmd).
+
 | Function | XIAO pin | ESP32-S3 GPIO |
 |---|---:|---:|
 | Up/down potentiometer | D0 | GPIO1 |
